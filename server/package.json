@@ -1,0 +1,67 @@
+{
+  "name": "vehicle-diagnostics-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "imports": {
+    "#config": {
+      "development": "./src/config/index.ts",
+      "default": "./dist/config/index.js"
+    },
+    "#db": {
+      "development": "./src/db/index.ts",
+      "default": "./dist/db/index.js"
+    },
+    "#models": {
+      "development": "./src/models/index.ts",
+      "default": "./dist/models/index.js"
+    },
+    "#schemas": {
+      "development": "./src/schemas/index.ts",
+      "default": "./dist/schemas/index.js"
+    },
+    "#middlewares": {
+      "development": "./src/middlewares/index.ts",
+      "default": "./dist/middlewares/index.js"
+    },
+    "#controllers": {
+      "development": "./src/controllers/index.ts",
+      "default": "./dist/controllers/index.js"
+    },
+    "#routes": {
+      "development": "./src/routes/index.ts",
+      "default": "./dist/routes/index.js"
+    },
+    "#services": {
+      "development": "./src/services/index.ts",
+      "default": "./dist/services/index.js"
+    },
+    "#docs": {
+      "development": "./src/docs/index.ts",
+      "default": "./dist/docs/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "node --watch --conditions development --experimental-transform-types --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/app.ts",
+    "seed": "node --conditions development --experimental-transform-types --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/seed.ts",
+    "typecheck": "tsc --noEmit",
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "start": "node dist/app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.5",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.0",
+    "typescript": "~5.9.3"
+  }
+}

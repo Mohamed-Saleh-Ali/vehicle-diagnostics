@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    /* Base */
+    "target": "es2022",
+    "lib": ["es2022"],
+    "types": ["node"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    /* Node: run .ts directly in dev, compile to dist/ for production */
+    "module": "preserve",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    /* Resolve "#models" etc. to src/ while type-checking (same as `node --conditions development`) */
+    "customConditions": ["development"],
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "./src"
+  },
+  "include": ["src"]
+}
