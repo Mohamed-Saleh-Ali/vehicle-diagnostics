@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: false;
+}
+
+/* Custom daisyUI theme: workshop blue + signal amber */
+@plugin "daisyui/theme" {
+  name: "garage";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: oklch(99% 0.003 250);
+  --color-base-200: oklch(96.5% 0.007 250);
+  --color-base-300: oklch(91% 0.012 250);
+  --color-base-content: oklch(26% 0.03 260);
+  --color-primary: oklch(42% 0.17 262);
+  --color-primary-content: oklch(98% 0.01 262);
+  --color-secondary: oklch(80% 0.16 80);
+  --color-secondary-content: oklch(25% 0.05 70);
+  --color-accent: oklch(62% 0.14 190);
+  --color-accent-content: oklch(98% 0.01 190);
+  --color-neutral: oklch(27% 0.035 260);
+  --color-neutral-content: oklch(96% 0.01 260);
+  --color-info: oklch(64% 0.14 240);
+  --color-info-content: oklch(98% 0.01 240);
+  --color-success: oklch(62% 0.15 150);
+  --color-success-content: oklch(98% 0.01 150);
+  --color-warning: oklch(78% 0.16 75);
+  --color-warning-content: oklch(25% 0.05 70);
+  --color-error: oklch(58% 0.21 25);
+  --color-error-content: oklch(98% 0.01 25);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.9rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+body {
+  @apply bg-base-200 text-base-content antialiased;
+}
