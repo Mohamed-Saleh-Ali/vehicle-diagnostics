@@ -1,4 +1,4 @@
-// Single source of truth for fixed lists. The client reads categories from GET /api/parts/categories.
+// shared enums (client gets the categories from GET /api/parts/categories)
 export const ROLES = ['technician', 'admin'] as const;
 export type Role = (typeof ROLES)[number];
 
