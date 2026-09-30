@@ -1,12 +1,20 @@
 import express from 'express';
-import { env } from '#config';
+import cors from 'cors';
+import { allowedOrigins, env } from '#config';
 import { connectDB } from '#db';
+import { errorHandler, notFoundHandler } from '#middlewares';
 
 const app = express();
+
+app.use(cors({ origin: allowedOrigins }));
+app.use(express.json({ limit: '20kb' }));
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 await connectDB();
 app.listen(env.PORT, () => {

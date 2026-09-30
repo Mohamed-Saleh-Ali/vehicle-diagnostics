@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
-// Validate process.env once at startup: a missing secret crashes the server immediately
-// with a clear message instead of failing later on the first request.
+// fail fast on startup if something is missing
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.coerce.number().int().positive().default(8080),
@@ -11,7 +10,7 @@ const EnvSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('7d'),
   CLIENT_ORIGIN: z.string().default('http://localhost:5173'),
   MOCK_AI: z.enum(['0', '1']).default('1'),
-  // Any OpenAI-compatible provider. Default: Google Gemini (free tier)
+  // any OpenAI-compatible API, default is Gemini
   AI_API_KEY: z.string().optional(),
   AI_BASE_URL: z.string().default('https://generativelanguage.googleapis.com/v1beta/openai/'),
   AI_MODEL: z.string().default('gemini-3.8-flash'),
