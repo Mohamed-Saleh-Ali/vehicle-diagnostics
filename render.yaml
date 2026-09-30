@@ -1,0 +1,45 @@
+# Render Blueprint: New → Blueprint → pick this repo. Creates the API (web service) and the client (static site).
+# Values with `sync: false` are asked for in the Render dashboard — secrets never live in Git.
+services:
+  - type: web
+    name: diagbay-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: server
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false # e.g. https://diagbay-client.onrender.com
+      - key: MOCK_AI
+        value: "1" # switch to 0 once the real LLM works (Day 9)
+      - key: AI_API_KEY
+        sync: false # Gemini key from aistudio.google.com/apikey
+      - key: AI_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta/openai/
+      - key: AI_MODEL
+        value: gemini-3.8-flash
+
+  - type: web
+    name: diagbay-client
+    runtime: static
+    rootDir: client
+    buildCommand: npm install --include=dev && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite # React Router: every path serves index.html
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false # e.g. https://diagbay-api.onrender.com/api
