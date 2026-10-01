@@ -1,34 +1,27 @@
-import { useEffect, useState } from 'react';
-
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api';
-
-type Health = { status: string; time: string };
+import { Route, Routes } from 'react-router';
+import MainLayout from './layouts/MainLayout';
+import ProtectedLayout from './layouts/ProtectedLayout';
+import ComingSoon from './components/ComingSoon';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
-  const [health, setHealth] = useState<Health | null>(null);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetch(`${API_URL}/health`)
-      .then(res => res.json() as Promise<Health>)
-      .then(setHealth)
-      .catch(() => setError('API not reachable (the free server may be waking up, try again in a minute)'));
-  }, []);
-
   return (
-    <main className="grid min-h-screen place-items-center p-6">
-      <div className="card card-border w-full max-w-md bg-base-100 shadow-sm">
-        <div className="card-body items-center gap-4 text-center">
-          <h1 className="text-3xl font-bold">
-            Diag<span className="text-primary">Bay</span>
-          </h1>
-          <p className="text-base-content/70">Vehicle parts & diagnostics for small workshops. Coming soon.</p>
-          {!health && !error && <span className="loading loading-dots loading-md text-primary" />}
-          {health && <div className="badge badge-success">API: {health.status}</div>}
-          {error && <div className="alert alert-error alert-soft text-sm">{error}</div>}
-          <code className="text-xs text-base-content/50">{API_URL}</code>
-        </div>
-      </div>
-    </main>
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route index element={<ComingSoon title="Parts catalog" note="search and filter workshop parts by category." />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+
+        {/* Logged in */}
+        <Route element={<ProtectedLayout />}>
+          <Route path="diagnose" element={<ComingSoon title="AI diagnosis" note="describe a symptom, get a structured first diagnosis." />} />
+          <Route path="diagnoses" element={<ComingSoon title="My diagnoses" note="your saved diagnoses in one place." />} />
+        </Route>
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }
