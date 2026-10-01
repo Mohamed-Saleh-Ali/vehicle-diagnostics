@@ -3,42 +3,64 @@
   themes: false;
 }
 
-/* Custom daisyUI theme: workshop blue + signal amber */
+/* Workshop theme: paper, ink, safety orange */
 @plugin "daisyui/theme" {
   name: "garage";
   default: true;
   prefersdark: false;
   color-scheme: light;
-  --color-base-100: oklch(99% 0.003 250);
-  --color-base-200: oklch(96.5% 0.007 250);
-  --color-base-300: oklch(91% 0.012 250);
-  --color-base-content: oklch(26% 0.03 260);
-  --color-primary: oklch(42% 0.17 262);
-  --color-primary-content: oklch(98% 0.01 262);
-  --color-secondary: oklch(80% 0.16 80);
-  --color-secondary-content: oklch(25% 0.05 70);
-  --color-accent: oklch(62% 0.14 190);
-  --color-accent-content: oklch(98% 0.01 190);
-  --color-neutral: oklch(27% 0.035 260);
-  --color-neutral-content: oklch(96% 0.01 260);
-  --color-info: oklch(64% 0.14 240);
-  --color-info-content: oklch(98% 0.01 240);
-  --color-success: oklch(62% 0.15 150);
-  --color-success-content: oklch(98% 0.01 150);
-  --color-warning: oklch(78% 0.16 75);
-  --color-warning-content: oklch(25% 0.05 70);
-  --color-error: oklch(58% 0.21 25);
-  --color-error-content: oklch(98% 0.01 25);
-  --radius-selector: 0.5rem;
-  --radius-field: 0.5rem;
-  --radius-box: 0.9rem;
+  --color-base-100: #fcfaf5;
+  --color-base-200: #f3efe6;
+  --color-base-300: #e2dccf;
+  --color-base-content: #191919;
+  --color-primary: #e4561b;
+  --color-primary-content: #ffffff;
+  --color-secondary: #191919;
+  --color-secondary-content: #f3efe6;
+  --color-accent: #2f5d50;
+  --color-accent-content: #ffffff;
+  --color-neutral: #191919;
+  --color-neutral-content: #f3efe6;
+  --color-info: #2f6f9f;
+  --color-info-content: #ffffff;
+  --color-success: #2f7d4f;
+  --color-success-content: #ffffff;
+  --color-warning: #d99a1e;
+  --color-warning-content: #191919;
+  --color-error: #c43a24;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
-  --border: 1px;
-  --depth: 1;
+  --border: 1.5px;
+  --depth: 0;
   --noise: 0;
+}
+
+@theme {
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Barlow", ui-sans-serif, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 body {
   @apply bg-base-200 text-base-content antialiased;
+  background-image:
+    linear-gradient(#e7e1d5 1px, transparent 1px),
+    linear-gradient(90deg, #e7e1d5 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+h1,
+h2,
+.card-title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.label-mono {
+  @apply font-mono text-xs uppercase tracking-wider text-base-content/60;
 }
