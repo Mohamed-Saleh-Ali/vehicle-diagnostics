@@ -1,4 +1,4 @@
-import type { AuthResponse, User } from '../types';
+import type { AuthResponse, Part, PartInput, User } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api';
 const TOKEN_KEY = 'diagbay_token';
@@ -52,12 +52,27 @@ async function request<T>(path: string, { method = 'GET', body }: RequestOptions
   return data as T;
 }
 
+const toQuery = (params: Record<string, string | undefined>) => {
+  const search = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => value && search.set(key, value));
+  const query = search.toString();
+  return query ? `?${query}` : '';
+};
+
 export const api = {
   // Auth
   register: (body: { name: string; email: string; password: string }) =>
     request<AuthResponse>('/auth/register', { method: 'POST', body }),
   login: (body: { email: string; password: string }) => request<AuthResponse>('/auth/login', { method: 'POST', body }),
-  me: () => request<{ user: User }>('/auth/me')
+  me: () => request<{ user: User }>('/auth/me'),
+
+  // Parts
+  getParts: (params: { q?: string; category?: string } = {}) => request<Part[]>(`/parts${toQuery(params)}`),
+  getCategories: () => request<string[]>('/parts/categories'),
+  getPart: (id: string) => request<Part>(`/parts/${id}`),
+  createPart: (body: PartInput) => request<Part>('/parts', { method: 'POST', body }),
+  updatePart: (id: string, body: Partial<PartInput>) => request<Part>(`/parts/${id}`, { method: 'PUT', body }),
+  deletePart: (id: string) => request<void>(`/parts/${id}`, { method: 'DELETE' })
 };
 
 export const errorMessage = (error: unknown) =>
