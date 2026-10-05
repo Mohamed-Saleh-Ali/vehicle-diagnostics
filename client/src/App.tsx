@@ -2,6 +2,8 @@ import { Route, Routes } from 'react-router';
 import MainLayout from './layouts/MainLayout';
 import ProtectedLayout from './layouts/ProtectedLayout';
 import ComingSoon from './components/ComingSoon';
+import CatalogPage from './pages/CatalogPage';
+import PartDetailsPage from './pages/PartDetailsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -10,7 +12,9 @@ export default function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route index element={<ComingSoon title="Parts catalog" note="search and filter workshop parts by category." />} />
+        {/* Public */}
+        <Route index element={<CatalogPage />} />
+        <Route path="parts/:id" element={<PartDetailsPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
 
