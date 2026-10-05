@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 import { allowedOrigins, env } from '#config';
 import { connectDB } from '#db';
-import { authRouter } from '#routes';
+import { authRouter, partsRouter } from '#routes';
 import { errorHandler, notFoundHandler } from '#middlewares';
+import { openapiDoc } from '#docs';
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use('/api/parts', partsRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc));
 
 app.use(notFoundHandler);
 app.use(errorHandler);
