@@ -1,9 +1,9 @@
-// npm run seed - resets parts, upserts demo users
+// npm run seed - resets parts, upserts demo users, adds demo diagnoses
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import { connectDB } from '#db';
-import { Part, User } from '#models';
-import { seedParts } from './seedData.ts';
+import { Diagnosis, Part, User } from '#models';
+import { seedDiagnoses, seedParts } from './seedData.ts';
 
 const accounts = [
   {
@@ -34,5 +34,8 @@ if (!admin || !tech) throw new Error('Seeding users failed');
 await Part.deleteMany({});
 await Part.insertMany(seedParts.map(part => ({ ...part, createdBy: admin._id })));
 
-console.log(`\x1b[32mSeeded ${seedParts.length} parts, 2 users (${admin.email}, ${tech.email})\x1b[0m`);
+await Diagnosis.deleteMany({ owner: tech._id });
+await Diagnosis.insertMany(seedDiagnoses.map(d => ({ ...d, source: 'mock', owner: tech._id })));
+
+console.log(`\x1b[32mSeeded ${seedParts.length} parts, 2 users (${admin.email}, ${tech.email}), ${seedDiagnoses.length} diagnoses\x1b[0m`);
 await mongoose.disconnect();
