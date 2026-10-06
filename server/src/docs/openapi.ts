@@ -73,6 +73,41 @@ export const openapiDoc = {
             }
           }
         ]
+      },
+      DiagnosisRequest: {
+        type: 'object',
+        required: ['symptomDescription'],
+        properties: {
+          symptomDescription: {
+            type: 'string',
+            minLength: 10,
+            maxLength: 1000,
+            example: 'Grinding noise from the front when braking, pedal feels soft'
+          },
+          vehicleNote: { type: 'string', maxLength: 200, example: 'Compact hatchback, 2017, 120,000 km' }
+        }
+      },
+      DiagnosisResult: {
+        type: 'object',
+        properties: {
+          subsystem: { type: 'string' },
+          possibleCauses: { type: 'array', items: { type: 'string' }, minItems: 1, maxItems: 5 },
+          recommendedPartCategories: { type: 'array', items: { type: 'string', enum: PART_CATEGORIES } },
+          urgency: { type: 'string', enum: ['low', 'medium', 'high'] },
+          confidence: { type: 'number', minimum: 0, maximum: 1 }
+        }
+      },
+      Diagnosis: {
+        type: 'object',
+        properties: {
+          _id: { type: 'string' },
+          symptomDescription: { type: 'string' },
+          vehicleNote: { type: 'string' },
+          result: { $ref: '#/components/schemas/DiagnosisResult' },
+          source: { type: 'string', enum: ['ai', 'mock'] },
+          owner: { type: 'string' },
+          createdAt: { type: 'string', format: 'date-time' }
+        }
       }
     }
   },
@@ -133,6 +168,27 @@ export const openapiDoc = {
         responses: { 200: { description: 'OK', content: json('Part') }, 403: error('Not admin'), 404: error('Not found') }
       },
       delete: { tags: ['Parts'], summary: 'Delete a part (admin)', security: bearer, responses: { 204: { description: 'Deleted' }, 403: error('Not admin'), 404: error('Not found') } }
+    },
+    '/diagnoses': {
+      post: {
+        tags: ['Diagnoses'],
+        summary: 'Run the AI diagnosis and save it',
+        security: bearer,
+        requestBody: { required: true, content: json('DiagnosisRequest') },
+        responses: {
+          201: { description: 'Created', content: json('Diagnosis') },
+          400: error('Validation error'),
+          401: error('Not logged in'),
+          429: error('Rate limit'),
+          502: error('AI failed after retry, nothing saved')
+        }
+      },
+      get: { tags: ['Diagnoses'], summary: 'My diagnoses, newest first', security: bearer, responses: { 200: { description: 'OK' } } }
+    },
+    '/diagnoses/{id}': {
+      parameters: [idParam],
+      get: { tags: ['Diagnoses'], summary: 'One of my diagnoses', security: bearer, responses: { 200: { description: 'OK', content: json('Diagnosis') }, 403: error('Not the owner'), 404: error('Not found') } },
+      delete: { tags: ['Diagnoses'], summary: 'Delete one of my diagnoses', security: bearer, responses: { 204: { description: 'Deleted' }, 403: error('Not the owner'), 404: error('Not found') } }
     }
   }
 };
