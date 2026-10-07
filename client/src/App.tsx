@@ -7,6 +7,7 @@ import CatalogPage from './pages/CatalogPage';
 import PartDetailsPage from './pages/PartDetailsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import DiagnosePage from './pages/DiagnosePage';
 import ManagePartsPage from './pages/ManagePartsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -22,7 +23,7 @@ export default function App() {
 
         {/* Logged in */}
         <Route element={<ProtectedLayout />}>
-          <Route path="diagnose" element={<ComingSoon title="AI diagnosis" note="describe a symptom, get a structured first diagnosis." />} />
+          <Route path="diagnose" element={<DiagnosePage />} />
           <Route path="diagnoses" element={<ComingSoon title="My diagnoses" note="your saved diagnoses in one place." />} />
         </Route>
 
