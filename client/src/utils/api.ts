@@ -1,4 +1,4 @@
-import type { AuthResponse, Part, PartInput, User } from '../types';
+import type { AuthResponse, Diagnosis, DiagnosisInput, Part, PartInput, User } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api';
 const TOKEN_KEY = 'diagbay_token';
@@ -72,7 +72,13 @@ export const api = {
   getPart: (id: string) => request<Part>(`/parts/${id}`),
   createPart: (body: PartInput) => request<Part>('/parts', { method: 'POST', body }),
   updatePart: (id: string, body: Partial<PartInput>) => request<Part>(`/parts/${id}`, { method: 'PUT', body }),
-  deletePart: (id: string) => request<void>(`/parts/${id}`, { method: 'DELETE' })
+  deletePart: (id: string) => request<void>(`/parts/${id}`, { method: 'DELETE' }),
+
+  // Diagnoses
+  createDiagnosis: (body: DiagnosisInput) => request<Diagnosis>('/diagnoses', { method: 'POST', body }),
+  getDiagnoses: () => request<Diagnosis[]>('/diagnoses'),
+  getDiagnosis: (id: string) => request<Diagnosis>(`/diagnoses/${id}`),
+  deleteDiagnosis: (id: string) => request<void>(`/diagnoses/${id}`, { method: 'DELETE' })
 };
 
 export const errorMessage = (error: unknown) =>
