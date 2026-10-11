@@ -8,6 +8,7 @@ import { ErrorAlert, Loading } from '../components/StatusViews';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { formatDate, formatPrice } from '../utils/format';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import PartImage from '../components/PartImage';
 
 export default function PartDetailsPage() {
   const { id = '' } = useParams();
@@ -52,7 +53,10 @@ export default function PartDetailsPage() {
       {error && <ErrorAlert message={error} />}
 
       {part && (
-        <article className="card card-border bg-base-100">
+        <article className="card card-border bg-base-100">          
+          <figure className="mb-6 max-w-lg border-2 border-base-content">
+          <PartImage part={part} eager />
+          </figure>
           <div className="card-body gap-4">
             <div className="flex flex-wrap items-center gap-2">
               <Link to={`/?category=${encodeURIComponent(part.category)}`} className="badge badge-soft badge-primary">

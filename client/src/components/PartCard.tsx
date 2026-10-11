@@ -1,3 +1,4 @@
+import PartImage from './PartImage';
 import { Link } from 'react-router';
 import type { Part } from '../types';
 import { formatPrice } from '../utils/format';
@@ -8,6 +9,9 @@ export default function PartCard({ part }: { part: Part }) {
       to={`/parts/${part._id}`}
       className="card card-border bg-base-100 transition hover:-translate-y-0.5 hover:border-primary"
     >
+      <figure className="border-b-2 border-base-content/15">
+      <PartImage part={part} />
+      </figure>
       <div className="card-body gap-2 p-5">
         <div className="flex items-center justify-between gap-2">
           <span className="badge badge-soft badge-primary badge-sm">{part.category}</span>
