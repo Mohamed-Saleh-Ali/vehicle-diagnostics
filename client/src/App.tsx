@@ -2,12 +2,13 @@ import { Route, Routes } from 'react-router';
 import MainLayout from './layouts/MainLayout';
 import ProtectedLayout from './layouts/ProtectedLayout';
 import AdminLayout from './layouts/AdminLayout';
-import ComingSoon from './components/ComingSoon';
 import CatalogPage from './pages/CatalogPage';
 import PartDetailsPage from './pages/PartDetailsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DiagnosePage from './pages/DiagnosePage';
+import DiagnosesPage from './pages/DiagnosesPage';
+import DiagnosisDetailsPage from './pages/DiagnosisDetailsPage';
 import ManagePartsPage from './pages/ManagePartsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -24,7 +25,8 @@ export default function App() {
         {/* Logged in */}
         <Route element={<ProtectedLayout />}>
           <Route path="diagnose" element={<DiagnosePage />} />
-          <Route path="diagnoses" element={<ComingSoon title="My diagnoses" note="your saved diagnoses in one place." />} />
+          <Route path="diagnoses" element={<DiagnosesPage />} />
+          <Route path="diagnoses/:id" element={<DiagnosisDetailsPage />} />
         </Route>
 
         {/* Admin only */}
