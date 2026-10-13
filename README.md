@@ -4,7 +4,7 @@ A web app for small car workshops. A technician types in what the customer descr
 
 Final project · WBS Coding School · AI Software Development · Mohamed Ebrahim · October 2026
 
-**Live:** client `https://<your-client>.onrender.com` · API docs `https://<your-api>.onrender.com/api-docs`
+**Live:** client `https://diagbay-client.onrender.com` · API docs `https://diagbay-api.onrender.com/api-docs`
 
 > The first request after about 15 minutes of inactivity takes up to 1 minute, because the free Render instance has to wake up.
 
@@ -39,7 +39,7 @@ const diagnosisResultSchema = z.object({
 3. If the answer is invalid, the server retries **once**, adding the validation errors to the prompt. If it is still invalid, or the provider times out or fails, the server returns **502** and saves nothing. The UI shows the error and a *Try again* button.
 4. `MOCK_AI=1` returns a keyword-based fake diagnosis. The UI was built against it, and it is the backup for the demo.
 5. The recommended categories come from a fixed enum, so they always link to a real catalog filter (`/?category=Brakes`).
-6. Rate limit: 6 diagnoses per minute per IP, to protect the paid key.
+6. Rate limit: 6 diagnoses per minute per IP, to protect the free-tier quota.
 
 ## Architecture
 
